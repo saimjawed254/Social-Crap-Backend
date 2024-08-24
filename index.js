@@ -159,7 +159,7 @@ app.post("/otp-verify", async (req, res) => {
       secure:true,
       sameSite: 'None',
       maxAge: 3600000,
-      path:'/dashboard'
+      path:'/'
     });
     res.json({
       success: true,
