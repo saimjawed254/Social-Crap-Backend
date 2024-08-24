@@ -159,6 +159,7 @@ app.post("/otp-verify", async (req, res) => {
       httpOnly: true,
       secure:true,
       sameSite: 'None',
+      domain: 'social-crap-backend.onrender.com'
     });
     res.json({
       success: true,
