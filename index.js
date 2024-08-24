@@ -157,6 +157,8 @@ app.post("/otp-verify", async (req, res) => {
     res.cookie("stringcookie", token, {
       maxAge: 3600000,
       httpOnly: true,
+      secure:true,
+      sameSite: 'None',
     });
     res.json({
       success: true,
