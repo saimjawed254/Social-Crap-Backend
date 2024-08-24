@@ -159,7 +159,6 @@ app.post("/otp-verify", async (req, res) => {
       httpOnly: true,
       secure:true,
       sameSite: 'None',
-      domain: 'social-crap.vercel.app'
     });
     res.json({
       success: true,
