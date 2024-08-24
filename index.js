@@ -158,7 +158,6 @@ app.post("/otp-verify", async (req, res) => {
       httpOnly: true,
       secure:true,
       sameSite: 'None',
-      maxAge: 3600000,
       path:'/'
     });
     res.json({
