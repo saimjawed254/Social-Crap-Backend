@@ -37,7 +37,7 @@ config({ path: "./config.env" });
   });
 
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL],
+  origin: process.env.FRONTEND_URL,
   methods: ["GET", "POST"],
   credentials: true,
 };
@@ -155,10 +155,11 @@ app.post("/otp-verify", async (req, res) => {
       expiresIn: "1h",
     });
     res.cookie("stringcookie", token, {
-      maxAge: 3600000,
       httpOnly: true,
       secure:true,
       sameSite: 'None',
+      maxAge: 3600000,
+      path:'/dashboard'
     });
     res.json({
       success: true,
