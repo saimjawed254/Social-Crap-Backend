@@ -3,6 +3,8 @@ import cors from "cors";
 import { config } from "dotenv";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from 'cloudinary';
+
 
 import { sendMail } from "./utils/sendEmail.js";
 import { sendOtp } from "./utils/sendOTP.js";
@@ -23,7 +25,17 @@ app.use(
   })
 );
 
+
+
 config({ path: "./config.env" });
+
+    // Configuration
+    cloudinary.config({ 
+      cloud_name: process.env.cloud_name, 
+      api_key: process.env.api_key, 
+      api_secret: process.env.api_secret // Click 'View API Keys' above to copy your API secret
+  });
+
 const corsOptions = {
   origin: [process.env.FRONTEND_URL],
   methods: ["GET", "POST"],
@@ -167,6 +179,7 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
       message: "Please check that your account is public and your username is valid",
     });
   }
+
   const {
     pfp,
     name,
@@ -182,6 +195,21 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
   } = datafromActual.postLikes;
 
   const cescore=datafromActual.cescore;
+  var pfpLink
+    
+    // Upload an image
+     const uploadResult = await cloudinary.uploader
+       .upload(
+           pfp, {
+               public_id: username,
+           }
+       )
+       .catch((error) => {
+           console.log(error);
+       });
+    
+    pfpLink=uploadResult.url
+    console.log(pfpLink)
   
   let checkUser = await User.findOne({ username : username });
 
@@ -189,7 +217,7 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
     let datacreate = await User.create({
       username,
       cescore,
-      pfp,
+      pfp:pfpLink,
       name,
       bio,
       posts,
@@ -201,11 +229,12 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
       followersName:datafromActual.followersName,
       followingName:datafromActual.followingName,
     });
+    console.log("datacreate",datacreate)
   } else {
     let updatedUser = await User.findOneAndUpdate(
       { username : username },
       { $set: { 
-        pfp : pfp,
+        pfp : pfpLink,
         cescore : cescore,
         bio: bio ,
         name: name,
@@ -220,6 +249,8 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
         
        } }
     );
+    console.log("updatedUser",updatedUser)
+
   }
 
   
@@ -287,6 +318,7 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
     message: "Received",
     datafromActual,
     rank : rank,
+    pfpLink:pfpLink,
     beatsRank : beatsRank,
     beatsavgLikes : beatsavgLikes,
     beatsTotalLikes : beatsTotalLikes,
