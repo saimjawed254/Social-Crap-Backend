@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
+  res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
   next();
 });
@@ -157,16 +158,16 @@ app.post("/otp-verify", async (req, res) => {
   premium = checkUser.premium
 
   if (checkUser.otp == otp) {
-    const token = jwt.sign({ email: receiver }, "flamsaim7404", {
-      expiresIn: "1h",
-    });
-    res.cookie("stringcookie", token, {
-      httpOnly:true,
-      sameSite: 'none',
-      secure:true,
-      maxAge : 360000,
-      path:'/'
-    });
+    // const token = jwt.sign({ email: receiver }, "flamsaim7404", {
+    //   expiresIn: "1h",
+    // });
+    // res.cookie("stringcookie", token, {
+    //   httpOnly:true,
+    //   sameSite: 'none',
+    //   secure:true,
+    //   maxAge : 360000,
+    //   path:'/'
+    // });
     res.json({
       success: true,
       message: "User Authorized ",
@@ -179,7 +180,7 @@ app.post("/otp-verify", async (req, res) => {
   }
 });
 
-router.post("/dashboard", isLoggedin, async (req, res) => {
+router.post("/dashboard", async (req, res) => {
   const { username } = req.body;
   const datafromActual = await actual(loggedIn, premium , username);
   if (datafromActual.message == "user error") {
@@ -338,31 +339,31 @@ router.post("/dashboard", isLoggedin, async (req, res) => {
 app.use(router);
 
 app.get("/logout", (req, res) => {
-  res.cookie("stringcookie", "").json({
+  res.json({
     success: true,
     message: "You have been logged out",
   });
 });
 
-function isLoggedin(req, res, next) {
-  const token = req.cookies["stringcookie"];
-  if (!token) {
-    return res.status(500).json({
-      success: false,
-      message: "You need to login first",
-    });
-  }
+// function isLoggedin(req, res, next) {
+//   // const token = req.cookies["stringcookie"];
+//   if (!token) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "You need to login first",
+//     });
+//   }
 
-  try {
-    const data = jwt.verify(token, "flamsaim7404");
-    req.user = data;
-    next();
-  } catch (error) {
-    return res.json({
-      success: false,
-      message: "Invalid token",
-    });
-  }
-}
+//   try {
+//     const data = jwt.verify(token, "flamsaim7404");
+//     req.user = data;
+//     next();
+//   } catch (error) {
+//     return res.json({
+//       success: false,
+//       message: "Invalid token",
+//     });
+//   }
+// }
 
 app.listen(process.env.PORT);
