@@ -155,7 +155,6 @@ app.post("/otp-verify", async (req, res) => {
       expiresIn: "1h",
     });
     res.cookie("stringcookie", token, {
-      httpOnly: true,
       secure:true,
       sameSite: 'None',
       path:'/'
