@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { config } from "dotenv";
-import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from 'cloudinary';
 
@@ -18,12 +17,12 @@ const app = express();
 const router = express.Router();
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
+//   next();
+// });
 
 app.use(express.json());
 app.use(
@@ -44,7 +43,7 @@ config({ path: "./config.env" });
   });
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: 'https://social-crap.vercel.app',
   methods: ["GET", "POST"],
   credentials: true,
 };
