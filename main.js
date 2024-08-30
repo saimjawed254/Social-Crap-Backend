@@ -42,7 +42,8 @@ async function login(bot, username, password) {
   await passwordInput.clear();
   await passwordInput.sendKeys(password);
   const loginButton = await bot.wait(
-    until.elementLocated(By.css('button[type="submit"]')),
+    // until.elementLocated(By.css('button[type="submit"]')),
+    until.elementIsEnabled(By.xpath("//button[@class='_acan _acap _acas _aj1- _ap30']")),
     2000
   );
   await loginButton.click();
