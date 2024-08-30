@@ -13,6 +13,7 @@ const service = new chrome.ServiceBuilder();
 
 chromeOptions.addArguments("--no-sandbox");
 chromeOptions.addArguments("--log-level=3");
+chromeOptions.addArguments("--headless=new");
 chromeOptions.setMobileEmulation({
   userAgent:
     "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/90.0.1025.166 Mobile Safari/535.19",
