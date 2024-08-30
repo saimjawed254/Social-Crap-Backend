@@ -17,12 +17,6 @@ const app = express();
 const router = express.Router();
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
-  next();
-});
 
 app.use(express.json());
 app.use(
@@ -180,6 +174,11 @@ app.post("/otp-verify", async (req, res) => {
 });
 
 router.post("/dashboard", async (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
+  
   const { username } = req.body;
   const datafromActual = await actual(loggedIn, premium , username);
   if (datafromActual.message == "user error") {

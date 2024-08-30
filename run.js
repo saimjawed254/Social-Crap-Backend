@@ -4,9 +4,16 @@ export async function actual(loggedIn, premium , username){
 
 const data=await scrape(loggedIn, premium,username)
 
+console.log(data)
+
 if(data.message == "username invalid" || data.message == "private account"){
     return {
         message : "user error"
+    }
+}
+if(data.message == "login problem"){
+    return {
+        message : "login problem"
     }
 }
 

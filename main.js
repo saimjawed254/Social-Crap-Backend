@@ -42,13 +42,21 @@ async function login(bot, username, password) {
   await passwordInput.clear();
   await passwordInput.sendKeys(password);
   await bot.sleep(2000);
+  try{
   const loginButton = await bot.wait(
     // until.elementLocated(By.css('button[type="submit"]')),
     until.elementLocated(By.xpath("//button[@class='_acan _acap _acas _aj1- _ap30']")),
     2000
   );
   await loginButton.click();
+} catch(err){
+  return {
+    message : "login problem"
+  }
+}
   await bot.sleep(5000);
+  console.log("All good")
+  return "";
 }
 
 async function scrapeUserData(bot, username) {
@@ -370,8 +378,11 @@ async function scrape(auth, premium, username) {
   const user=process.env.USER;
   const password=process.env.PASSWORD;
 
-  await login(bot, user, password);
-
+  var loginMessage =await login(bot, user, password);
+  if (loginMessage == "login problem"){
+    return loginMessage
+  }
+  
   var userData, followersName, followingName, postLikes;
 
   if (premium == false) {
