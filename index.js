@@ -47,6 +47,7 @@ let loggedIn = true;
 let premium;
 
 app.get("/", async (req, res) => {
+  console.log("Connected Saim")
   const data = await User.find({}).sort({'cescore': 'desc'}).limit(3)
   const length = await User.find({}).sort({'cescore': 'desc'})
 
@@ -178,7 +179,7 @@ router.post("/dashboard", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
-  
+
   const { username } = req.body;
   const datafromActual = await actual(loggedIn, premium , username);
   if (datafromActual.message == "user error") {
