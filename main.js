@@ -44,7 +44,7 @@ async function login(bot, username, password) {
   await passwordInput.clear();
   await passwordInput.sendKeys(password);
   const loginButton = await bot.wait(
-    until.elementIsEnabled(By.css('button[type="submit"]')),
+    until.elementIsVisible(bot.findElement(By.css('button[type="submit"]'))),
     2000
   );
   await loginButton.click();
