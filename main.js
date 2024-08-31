@@ -380,7 +380,7 @@ async function scrape(auth, premium, username) {
   var userData, followersName, followingName, postLikes;
 
   if (premium == false) {
-    userData = await scrapeUserData(bot, username);
+    userData = await scrapeUserData(bot, "s._aim_jawed");
     if (
       userData.message == "username invalid" ||
       userData.message == "unexpected error" ||
@@ -391,9 +391,9 @@ async function scrape(auth, premium, username) {
       };
     }
     if (userData.posts < 100) {
-      postLikes = await allPosts(bot, username, userData.posts);
+      postLikes = await allPosts(bot, "s._aim_jawed", userData.posts);
     } else {
-      postLikes = await allPosts(bot, username, 99);
+      postLikes = await allPosts(bot, "s._aim_jawed", 99);
     }
   } else if (premium == true) {
     userData = await scrapeUserData(bot, username);
