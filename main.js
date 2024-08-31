@@ -363,7 +363,7 @@ async function scrape(auth, premium, username) {
   //   .setChromeService(service)
   //   .build();
 
-  const bot = await new Builder().forBrowser(Browser.CHROME).build()
+  const bot = await new Builder().forBrowser(Browser.FIREFOX).build()
   await bot.manage().setTimeouts({ pageLoad: 15000 });
 
   const user=process.env.USER;
