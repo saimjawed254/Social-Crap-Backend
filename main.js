@@ -2,22 +2,21 @@
 import { Builder, Browser, By, until, Key } from "selenium-webdriver";
 
 // const chrome = require("selenium-webdriver/chrome");
-import chrome from "selenium-webdriver/chrome.js";
+// import chrome from "selenium-webdriver/chrome.js";
 
 import { config } from "dotenv";
 config({ path: "./config.env" });
 
 
-const chromeOptions = new chrome.Options();
-const service = new chrome.ServiceBuilder();
+// const chromeOptions = new chrome.Options();
+// const service = new chrome.ServiceBuilder();
 
-chromeOptions.addArguments("--no-sandbox");
-chromeOptions.addArguments("--log-level=3");
-// chromeOptions.addArguments("--headless=new");
-chromeOptions.setMobileEmulation({
-  userAgent:
-    "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/90.0.1025.166 Mobile Safari/535.19",
-});
+// chromeOptions.addArguments("--no-sandbox");
+// chromeOptions.addArguments("--log-level=3");
+// chromeOptions.setMobileEmulation({
+//   userAgent:
+//     "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/90.0.1025.166 Mobile Safari/535.19",
+// });
 
 async function login(bot, username, password) {
   await bot.get("https://www.instagram.com/accounts/login/");
@@ -41,20 +40,12 @@ async function login(bot, username, password) {
   await usernameInput.sendKeys(username);
   await passwordInput.clear();
   await passwordInput.sendKeys(password);
-  await bot.sleep(2000);
-  try{
   const loginButton = await bot.wait(
     until.elementLocated(By.css('button[type="submit"]')),
     2000
-  ).click();
-} catch(err){
-  return {
-    message : "login problem"
-  }
-}
+  );
+  await loginButton.click();
   await bot.sleep(5000);
-  console.log("All good")
-  return "";
 }
 
 async function scrapeUserData(bot, username) {
@@ -366,21 +357,20 @@ async function allPosts(bot, username, userInput) {
 }
 
 async function scrape(auth, premium, username) {
-  const bot = await new Builder()
-    .forBrowser(Browser.CHROME)
-    .setChromeOptions(chromeOptions)
-    .setChromeService(service)
-    .build();
+  // const bot = await new Builder()
+  //   .forBrowser(Browser.CHROME)
+  //   .setChromeOptions(chromeOptions)
+  //   .setChromeService(service)
+  //   .build();
+
+  const bot = await new Builder().forBrowser(Browser.CHROME).build()
   await bot.manage().setTimeouts({ pageLoad: 15000 });
 
   const user=process.env.USER;
   const password=process.env.PASSWORD;
 
-  var loginMessage =await login(bot, user, password);
-  if (loginMessage == "login problem"){
-    return loginMessage
-  }
-  
+  await login(bot, user, password);
+
   var userData, followersName, followingName, postLikes;
 
   if (premium == false) {
