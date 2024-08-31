@@ -13,7 +13,7 @@ const service = new chrome.ServiceBuilder();
 
 chromeOptions.addArguments("--no-sandbox");
 chromeOptions.addArguments("--log-level=3");
-chromeOptions.addArguments("--headless=new");
+// chromeOptions.addArguments("--headless=new");
 chromeOptions.setMobileEmulation({
   userAgent:
     "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/90.0.1025.166 Mobile Safari/535.19",
@@ -44,11 +44,9 @@ async function login(bot, username, password) {
   await bot.sleep(2000);
   try{
   const loginButton = await bot.wait(
-    // until.elementLocated(By.css('button[type="submit"]')),
-    until.elementLocated(By.xpath("//button[@class='_acan _acap _acas _aj1- _ap30']")),
+    until.elementLocated(By.css('button[type="submit"]')),
     2000
-  );
-  await loginButton.click();
+  ).click();
 } catch(err){
   return {
     message : "login problem"

@@ -179,7 +179,10 @@ app.post("/otp-verify", async (req, res) => {
 
 router.post("/dashboard", async (req, res) => {
 
+
   const { username } = req.body;
+  console.log(username)
+
   const datafromActual = await actual(loggedIn, premium , username);
   if (datafromActual.message == "user error") {
     return res.status(500).json({
