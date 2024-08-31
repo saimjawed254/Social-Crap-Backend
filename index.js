@@ -37,7 +37,7 @@ config({ path: "./config.env" });
   });
 
 const corsOptions = {
-  origin: 'https://social-crap.vercel.app',
+  origin: 'http;//localhost:5173',
   methods: ["GET", "POST"],
   credentials: true,
 };
@@ -47,9 +47,10 @@ let loggedIn = true;
 let premium;
 
 app.get("/", async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
+  //Not needed for localhost
+  // res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
+  // res.setHeader('Access-Control-Allow-Credentials', true);
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
   console.log("Connected Saim")
   const data = await User.find({}).sort({'cescore': 'desc'}).limit(3)
   const length = await User.find({}).sort({'cescore': 'desc'})
@@ -155,16 +156,6 @@ app.post("/otp-verify", async (req, res) => {
   premium = checkUser.premium
 
   if (checkUser.otp == otp) {
-    // const token = jwt.sign({ email: receiver }, "flamsaim7404", {
-    //   expiresIn: "1h",
-    // });
-    // res.cookie("stringcookie", token, {
-    //   httpOnly:true,
-    //   sameSite: 'none',
-    //   secure:true,
-    //   maxAge : 360000,
-    //   path:'/'
-    // });
     res.json({
       success: true,
       message: "User Authorized ",
@@ -345,26 +336,5 @@ app.get("/logout", (req, res) => {
     message: "You have been logged out",
   });
 });
-
-// function isLoggedin(req, res, next) {
-//   // const token = req.cookies["stringcookie"];
-//   if (!token) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "You need to login first",
-//     });
-//   }
-
-//   try {
-//     const data = jwt.verify(token, "flamsaim7404");
-//     req.user = data;
-//     next();
-//   } catch (error) {
-//     return res.json({
-//       success: false,
-//       message: "Invalid token",
-//     });
-//   }
-// }
 
 app.listen(process.env.PORT);

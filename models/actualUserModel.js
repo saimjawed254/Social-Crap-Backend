@@ -1,8 +1,9 @@
-
-
 import { mongoose } from "mongoose";
+import { config } from "dotenv";
 
-mongoose.connect('mongodb+srv://saimjawed254:9RrkG9kNJFiyw5x9@cluster0.lfbja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+config({ path: "../config.env" });
+
+mongoose.connect(process.env.mongodbConnect)
 
 const actualSchema = mongoose.Schema({
     email : {
