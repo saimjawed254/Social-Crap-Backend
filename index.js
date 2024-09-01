@@ -37,7 +37,7 @@ config({ path: "./config.env" });
   });
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://social-crap.vercel.app',
   methods: ["GET", "POST"],
   credentials: true,
 };
