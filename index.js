@@ -49,9 +49,9 @@ let premium;
 
 app.get("/", async (req, res) => {
   //Not needed for localhost
-  // res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
-  // res.setHeader('Access-Control-Allow-Credentials', true);
-  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
+  res.setHeader('Access-Control-Allow-Origin', '*' ); // Allow all origins
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow specific methods
   console.log("Connected Saim")
   const data = await User.find({}).sort({'cescore': 'desc'}).limit(3)
   const length = await User.find({}).sort({'cescore': 'desc'})
