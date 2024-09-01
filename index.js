@@ -200,6 +200,7 @@ router.post("/dashboard", async (req, res) => {
   const cescore=datafromActual.cescore;
   var pfpLink
     
+  try{
     // Upload an image
      const uploadResult = await cloudinary.uploader
        .upload(
@@ -213,6 +214,7 @@ router.post("/dashboard", async (req, res) => {
     
     pfpLink=uploadResult.url
     console.log(pfpLink)
+      }catch(err){}
   
   let checkUser = await User.findOne({ username : username });
 

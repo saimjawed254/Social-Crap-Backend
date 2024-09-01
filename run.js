@@ -6,9 +6,9 @@ const data=await scrape(loggedIn, premium,username)
 
 console.log(data)
 
-if(data.message == "username invalid" || data.message == "private account"){
+if(data.message == "username invalid" || data.message == "private account" || data.message == "unexpected error"){
     return {
-        message : "user error"
+        data
     }
 }
 if(data.message == "login problem"){
@@ -73,6 +73,8 @@ Following.map((e)=>{
       }
 })
 }
+
+console.log(NotFollowingBack)
 
 
 const postData={

@@ -50,7 +50,7 @@ async function login(bot, username, password) {
   await loginButton.click();
 
   await bot.wait
-  await bot.sleep(5000);
+  await bot.sleep(10000);
   console.log("All Good outside login")
 }
 
@@ -381,13 +381,14 @@ async function scrape(auth, premium, username) {
 
   if (premium == false) {
     userData = await scrapeUserData(bot, username);
+    console.log(userData)
     if (
       userData.message == "username invalid" ||
       userData.message == "unexpected error" ||
       userData.message == "private account"
     ) {
       return {
-        message: "username invalid",
+        userData
       };
     }
     if (userData.posts < 100) {
@@ -408,8 +409,6 @@ async function scrape(auth, premium, username) {
     }
     if (userData.posts < 100) {
       postLikes = await allPosts(bot, username, userData.posts);
-    } else {
-      postLikes = await allPosts(bot, username, 99);
     }
   }
   await bot.quit();
